@@ -16,12 +16,11 @@
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+a {
+  color: rgb(80, 143, 252);
+  text-decoration: none;
+}
+
+a:hover {
+  color: darkblue;
 }
