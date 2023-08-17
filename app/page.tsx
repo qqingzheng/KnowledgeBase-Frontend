@@ -135,21 +135,21 @@ function Chat({ userIdentity, robotIdentity, defaultChatHistory }: { userIdentit
 												</div>
 												<ReactMarkdown className="mx-10">{chatitem.content}</ReactMarkdown>
 												{
+													Array.from(chatitem.appendix.entries()).length > 0 ? <div className="m-3 border-t"></div> : null
+												}
+												{
 													Array.from(chatitem.appendix.entries()).map(([key, value]) => {
 														if (key == "reference_urls" && value.length > 0) {
 															return (
-																<div key={key}>
-																	<div className="m-3 border-t"></div>
-																	<div className="flex flex-cols items-center mx-10 text-sm">参考网址：
+																	<div className="flex flex-wrap items-center mx-10 text-sm gap-x-2 gap-y-1">参考网址：
 																		{
 																			value.map((refItem, refIndex) => {
 																				return (
-																					<a key={refIndex} href={refItem.source} target="_blank" className="w-32 h-5 truncate bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">{refItem.title}</a>
+																					<a key={refIndex} href={refItem.source} target="_blank" className="inline-block w-24 h-5 truncate bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded whitespace-nowrap">{refItem.title}</a>
 																				)
 																			})
 																		}
 																	</div>
-																</div>
 															)
 														} else {
 															return <div id="refs"></div>;
@@ -271,7 +271,7 @@ function Content({ isOpen, conversations, userIdentity, robotIdentity, chatHisto
 }
 
 export default function Main() {
-	const [isOpen, setIsOpen] = useState(true);
+	const [isOpen, setIsOpen] = useState(false);
 	useEffect(() => {
 		const handleResize = () => {
 			if (window.innerWidth <= 768) {
@@ -298,21 +298,6 @@ export default function Main() {
 	let chatHistory: ChatHistory = {
 		history: new Array(),
 	};
-	// chatHistory.history.push({
-	// 	type: IdentityType.USER,
-	// 	content: "请问什么是承租人优先权？",
-	// 	appendix: new Map()
-	// })
-	// chatHistory.history.push({
-	// 	type: IdentityType.ROBOT,
-	// 	content: "根据上述文件内容，承租人优先权是指在房屋租赁关系中，承租人相对于其他潜在租赁人具有的一种优先选择权。当出租人准备出租房屋时，如果承租人符合优先承租权的行使条件，即租金标准、支付方式和期限、租期、租赁用途等方面的约定，承租人有权优先选择承租该房屋。这意味着其他潜在租赁人只有在承租人放弃或者无法行使优先承租权的情况下，才能有机会租赁该房屋。承租人优先权的存在是为了保护承租人的合法权益，确保承租人在租赁房屋时能够享有一定的优先地位。根据《民法典》的规定，承租人作为享有优先承租权的主体，有权在符合行使条件的情况下优先选择承租房屋。然而，对于是否包括次承租人或者次承租人是否享有优先承租权，需要具体分析转租合同的约定和相关法律规定。总之，承租人优先权是指在房屋租赁关系中，承租人相对于其他潜在租赁人具有的优先选择权，以保护承租人的合法权益。在符合行使条件的情况下，承租人有权优先选择承租房屋。",
-	// 	appendix: new Map()
-	// })
-	// let references = new Array();
-	// references.push({ source: "https://zhuanlan.zhihu.com/p/398631445", title: "房屋承租人的优先承租权能实现吗？ - 知乎" });
-	// references.push({ source: "https://www.thepaper.cn/newsDetail_forward_12620097", title: "优先承租权的理解与适用丨法律讲堂_澎湃号·政务_澎湃新闻-The Paper" });
-	// chatHistory.history.at(1)?.appendix.set("reference_urls", references);
-	// 主界面
 	return (
 		<main className="fixed flex flex-col bg-white min-w-full">
 			<Nav toggleSidebar={toggleSidebar} />
