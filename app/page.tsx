@@ -58,7 +58,7 @@ function RefBox({
 }) {
   return (
     <div className="flex justify-center m-2">
-      <div className="w-3/4 flex flex-col z-50 p-4 origin-top rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 animate-popOut">
+      <div className="w-11/12 flex flex-col z-50 p-4 origin-top rounded-lg bg-white ring-1 ring-black ring-opacity-5 animate-popOut">
         <div className="flex flex-row justify-between flex flex-wrap">
           <a href={url} target="_blank" className="flex inline-block w-11/12 text-xl">
             {title}
