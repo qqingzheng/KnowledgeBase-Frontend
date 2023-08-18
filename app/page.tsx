@@ -42,8 +42,8 @@ export default function Nav() {
               </radialGradient>
             </defs>
           </svg>
-          <div className="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left">
-            <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl">
+          <div className="mx-auto max-w-md text-center lg:mx-0 m-16 lg:flex-auto lg:py-32 lg:text-left">
+            <h2 className="mt-10 text-3xl font-bold tracking-tight text-black sm:text-4xl">
               构建你的私人知识库
               <br />
               知识有无限可能
