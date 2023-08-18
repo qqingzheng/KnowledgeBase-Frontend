@@ -228,7 +228,7 @@ function Chat({
     <div className="flex flex-col w-full min-w-screen max-w-screen min-h-screen max-h-screen">
       <div className="h-[85%] mx-6">
         <div
-          className="flex flex-col p-5 rounded-t-2xl bg-gray-100 h-[85%] overflow-y-scroll"
+          className="flex flex-col p-4 rounded-t-2xl bg-gray-100 h-[85%] overflow-y-scroll"
           ref={chatHistoryRef}
         >
           <ul role="list" className="flex flex-col gap-y-3">
@@ -253,7 +253,7 @@ function Chat({
                     </div>
                     <ReactMarkdown
                       rehypePlugins={[rehypeRaw]}
-                      className="mx-10"
+                      className="mx-8"
                       children={chatitem.content}
                     />
                   </li>
@@ -288,7 +288,7 @@ function Chat({
                       </div>
                       <ReactMarkdown
                         rehypePlugins={[rehypeRaw]}
-                        className="mx-10"
+                        className="mx-8"
                         children={chatitem.content}
                         components={{
                           button: ({ node, ...props }) => (
