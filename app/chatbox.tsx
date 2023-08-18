@@ -401,7 +401,7 @@ export default function Chat({
     }
     return (
         <div className="flex flex-col w-full min-w-screen max-w-screen min-h-screen max-h-screen">
-            <div className="h-[80%] mx-6">
+            <div className="h-[85%] mx-6">
                 <div
                     className="flex flex-col p-4 rounded-t-2xl bg-gray-100 h-[85%] overflow-y-scroll"
                     ref={chatHistoryRef}
