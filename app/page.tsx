@@ -473,7 +473,7 @@ function Siderbar({
                     </div>
                   </button>
                   {showPopup == index && (
-                    <div className="flex flex-col absolute -right-[42px] mt-2 origin-left rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 animate-popOut">
+                    <div className="flex flex-col absolute -right-[35px] mt-2 origin-left rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 animate-popOut">
                       <button className="rounded-t-lg inline-flex flex-row items-center justify-center gap-x-2 hover:bg-gray-100 text-gray-700 block px-4 py-2 text-sm">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
