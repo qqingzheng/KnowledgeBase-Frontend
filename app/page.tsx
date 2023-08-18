@@ -58,7 +58,7 @@ function RefBox({
 }) {
   return (
     <div className="flex flex-row justify-center">
-      <div className="flex flex-col z-50 relative mt-2 w-3/4 p-4 origin-top rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 animate-popOut">
+      <div className="flex flex-col z-50 mt-2 w-3/4 p-4 origin-top rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 animate-popOut">
         <div className="inline-flex flex-row justify-between">
           <a href={url} target="_blank" className="text-xl truncate">
             {title}
@@ -93,7 +93,6 @@ function Chat({
   const [isLoading, setIsLoading] = useState(false);
   const chatHistoryCopy = chatHistory;
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
   const inputRef = useRef<HTMLInputElement>(null);
   const chatHistoryRef = useRef<HTMLDivElement>(null);
 
@@ -114,21 +113,6 @@ function Chat({
     (!isLoading && displayRef.at(0) != index) || displayRef.at(1) != props.refid
       ? setDisplayRef([props.conversationid, props.refid])
       : setDisplayRef([-1, -1]);
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
-
-    let positionedParent = (e.target as HTMLElement).parentElement;
-    while (
-      positionedParent &&
-      getComputedStyle(positionedParent).position === "static"
-    ) {
-      positionedParent = positionedParent.parentElement;
-    }
-    const parentRect = positionedParent?.getBoundingClientRect();
-    const relativeX = mouseX - parentRect!.left;
-    const relativeY = mouseY - parentRect!.top;
-    setCoords({ x: relativeX, y: relativeY });
-    console.log(coords);
   };
   const handleRobotButtonClose = () => {
     setDisplayRef([-1, -1]);
