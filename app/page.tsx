@@ -178,6 +178,7 @@ function Chat({
         }
         let resultList = new TextDecoder().decode(value).trim().split("\n");
         resultList.map((result, index) => {
+          console.log(result)
           let jsonResult = JSON.parse(result);
           if ("metas" in jsonResult) {
             setChatHistory((prevHistory) => {
