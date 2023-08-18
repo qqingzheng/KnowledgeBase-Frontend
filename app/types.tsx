@@ -13,6 +13,7 @@ export interface ChatItem {
   content: string;
   appendix: Map<string, Array<any>>;
   references: Array<any>;
+  isError: string|null;
 }
 export interface ChatHistory {
   history: Array<ChatItem>;
