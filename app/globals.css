@@ -24,3 +24,34 @@ a {
 a:hover {
   color: darkblue;
 }
+
+.gradient-text {
+  position: relative;
+}
+
+.gradient-text::before,
+.gradient-text::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%; /* 覆盖文本的一半 */
+  z-index: 1; /* 确保在文本之上 */
+  pointer-events: none; /* 确保文本可以被选中 */
+}
+
+.gradient-text::before {
+  left: 0;
+  background: linear-gradient(to right, white 0.1%, transparent); 
+}
+
+.gradient-text::after {
+  right: 0;
+  background: linear-gradient(to left, white 0.1%, transparent); 
+}
+
+.gradient-text span {
+  position: relative;
+  z-index: 2; 
+}

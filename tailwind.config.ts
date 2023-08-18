@@ -14,13 +14,19 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       keyframes: {
-        'gradient-flow': {
-          '0%': { 'background-position': '100% 50%' },
-          '100%': { 'background-position': '0% 50%' }
-        }
+        popOut: {
+          '0%': {
+            opacity: '0',
+            transform: 'scale(0.9)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'scale(1)'
+          }
+        },
       },
       animation: {
-        'gradient-flow': 'gradient-flow 1s infinite linear',
+        popOut: 'popOut 0.3s forwards',
       }
     },
   },

@@ -1,4 +1,3 @@
-
 export const title: string = "KnowledgeBase";
 export const footer: string = "chestnut";
 export const github: string = "https://github.com/qqingzheng/";
