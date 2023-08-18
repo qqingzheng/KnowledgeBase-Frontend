@@ -167,7 +167,7 @@ function Chat({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ prompt: query, top_k: 8 }),
+          body: JSON.stringify({ prompt: query}),
         }
       );
       const reader = response.body!.getReader();
@@ -178,7 +178,6 @@ function Chat({
         }
         let resultList = new TextDecoder().decode(value).trim().split("\n");
         resultList.map((result, index) => {
-          console.log(result)
           let jsonResult = JSON.parse(result);
           if ("metas" in jsonResult) {
             setChatHistory((prevHistory) => {
