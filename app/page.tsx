@@ -57,22 +57,22 @@ function RefBox({
   content: string;
 }) {
   return (
-    <div className="flex flex-row justify-center">
-      <div className="flex flex-col z-50 mt-2 w-3/4 p-4 origin-top rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 animate-popOut">
-        <div className="inline-flex flex-row justify-between">
-          <a href={url} target="_blank" className="text-xl truncate">
+    <div className="flex justify-center m-2">
+      <div className="w-3/4 flex flex-col z-50 p-4 origin-top rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 animate-popOut">
+        <div className="flex flex-row justify-between flex flex-wrap">
+          <a href={url} target="_blank" className="flex inline-block w-11/12 text-xl">
             {title}
           </a>
           <button
             ref={ref}
             onClick={closeHandler}
-            className="text-lg text-red-400 hover:text-red-500"
+            className="absolute top-[10px] right-[10px] text-lg text-red-400 hover:text-red-500"
           >
-            <XCircleFill />
+            <XCircleFill className="w-[15px] h-[15px]" />
           </button>
         </div>
         <div className="border-b mt-2"></div>
-        <span className="mt-2 text-sm">...{content}...</span>
+        <span className="mt-2 w-full text-sm">...{content}...</span>
       </div>
     </div>
   );
