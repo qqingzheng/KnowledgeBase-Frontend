@@ -8,7 +8,13 @@ import {
   XCircleFill,
   LayoutSidebarInset,
   EnvelopeFill,
+  Trash,
+  ShareFill,
+  StarFill,
+  ThreeDotsVertical,
 } from "react-bootstrap-icons";
+import { execPath } from "process";
+import { Share } from "next/font/google";
 
 enum IdentityType {
   USER,
@@ -54,7 +60,7 @@ function RefBox({
     <div className="flex flex-row justify-center">
       <div className="flex flex-col z-50 relative mt-2 w-3/4 p-4 origin-top rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 animate-popOut">
         <div className="inline-flex flex-row justify-between">
-          <a href={url} target="_blank" className="text-xl">
+          <a href={url} target="_blank" className="text-xl truncate">
             {title}
           </a>
           <button
@@ -171,48 +177,60 @@ function Chat({
         }
       );
       const reader = response.body!.getReader();
+      let buffer: string = "";
       while (true) {
         const { done, value } = await reader.read();
         if (done) {
           break;
         }
-        let resultList = new TextDecoder().decode(value).trim().split("\n");
-        resultList.map((result, index) => {
-          let jsonResult = JSON.parse(result);
-          if ("metas" in jsonResult) {
-            setChatHistory((prevHistory) => {
-              const newHistory = [...prevHistory.history];
-              newHistory[newHistory.length - 1].content += jsonResult.response;
-              newHistory[newHistory.length - 1].appendix = new Map([
-                ["reference_urls", jsonResult.metas],
-              ]);
-              newHistory[newHistory.length - 1].references =
-                jsonResult.references;
-              return { ...prevHistory, history: newHistory };
-            });
-          } else {
-            setChatHistory((prevHistory) => {
-              const newHistory = [...prevHistory.history];
-              newHistory[newHistory.length - 1].content += jsonResult.response;
-              newHistory[newHistory.length - 1].content = newHistory[
-                newHistory.length - 1
-              ].content.replace(/\[(\d+)\]/g, (match, number) => {
-                return `<button conversationid=${
-                  newHistory.length - 1
-                } refid=${number}></button>`;
+        buffer += new TextDecoder().decode(value).trim();
+        let resultList = buffer.split("\n");
+        buffer = ""
+        let successIndex: number = -1;
+        try{
+            resultList.map((result, index) => {
+                successIndex = index;
+                let jsonResult = JSON.parse(result);
+                if ("metas" in jsonResult) {
+                  setChatHistory((prevHistory) => {
+                    const newHistory = [...prevHistory.history];
+                    newHistory[newHistory.length - 1].content += jsonResult.response;
+                    newHistory[newHistory.length - 1].appendix = new Map([
+                      ["reference_urls", jsonResult.metas],
+                    ]);
+                    newHistory[newHistory.length - 1].references =
+                      jsonResult.references;
+                    return { ...prevHistory, history: newHistory };
+                  });
+                } else {
+                  setChatHistory((prevHistory) => {
+                    const newHistory = [...prevHistory.history];
+                    newHistory[newHistory.length - 1].content += jsonResult.response;
+                    newHistory[newHistory.length - 1].content = newHistory[
+                      newHistory.length - 1
+                    ].content.replace(/\[(\d+)\]/g, (match, number) => {
+                      return `<button conversationid=${
+                        newHistory.length - 1
+                      } refid=${number}></button>`;
+                    });
+                    newHistory[newHistory.length - 1].content = newHistory[
+                      newHistory.length - 1
+                    ].content.replace(/\[index (\d+)\]/g, (match, number) => {
+                      return `<button conversationid=${
+                        newHistory.length - 1
+                      } refid=${number}></button>`;
+                    });
+                    newHistory[newHistory.length - 1].content.replace("", "");
+                    return { ...prevHistory, history: newHistory };
+                  });
+                }
               });
-              newHistory[newHistory.length - 1].content = newHistory[
-                newHistory.length - 1
-              ].content.replace(/\[index (\d+)\]/g, (match, number) => {
-                return `<button conversationid=${
-                  newHistory.length - 1
-                } refid=${number}></button>`;
-              });
-              newHistory[newHistory.length - 1].content.replace("", "");
-              return { ...prevHistory, history: newHistory };
-            });
+        } catch (error) {
+          if(successIndex != -1){
+            buffer += resultList.at(successIndex);
           }
-        });
+          continue;
+        }
       }
     } catch (error) {
       console.error("There was an error sending the message:", error);
@@ -405,6 +423,21 @@ function Siderbar({
       setShowPopup(-1);
     }
   }, [isOpen]);
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (showPopup !== -1) {
+        const isTrigger = event.target.closest(".popup-trigger");
+        const isPopup = event.target.closest(".popup-content");
+        if (!isTrigger && !isPopup) {
+          setShowPopup(-1);
+        }
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showPopup]);
   return (
     <div className="min-h-screen">
       <div
@@ -459,59 +492,23 @@ function Siderbar({
                         e.stopPropagation();
                         setShowPopup(showPopup == index ? -1 : index);
                       }}
-                      className={`inline-flex justify-center items-center w-6 h-6 mx-2 rounded-full ${selectedDotsFormat}`}
+                      className={`popup-trigger inline-flex justify-center items-center w-6 h-6 mx-2 rounded-full ${selectedDotsFormat}`}
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="15"
-                        height="15"
-                        fill="currentColor"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                      </svg>
+                        <ThreeDotsVertical />
                     </div>
                   </button>
                   {showPopup == index && (
-                    <div className="flex flex-col absolute -right-[35px] mt-2 origin-left rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 animate-popOut">
+                    <div className="popup-content flex flex-col absolute -right-[35px] mt-2 origin-left rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 animate-popOut">
                       <button className="rounded-t-lg inline-flex flex-row items-center justify-center gap-x-2 hover:bg-gray-100 text-gray-700 block px-4 py-2 text-sm">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                        </svg>
+                        <StarFill />
                         收藏
                       </button>
                       <button className="hover:bg-gray-100 inline-flex flex-row items-center justify-center gap-x-2 text-gray-700 block px-4 py-2 text-sm">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z" />
-                        </svg>
+                        <ShareFill />
                         分享
                       </button>
                       <button className="rounded-b-lg inline-flex flex-row items-center justify-center gap-x-2 hover:bg-red-600 bg-red-500 text-white block px-4 py-2 text-sm">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                          <path
-                            fill-rule="evenodd"
-                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                          />
-                        </svg>
+                        <Trash/>
                         删除
                       </button>
                     </div>
