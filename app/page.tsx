@@ -20,9 +20,9 @@ function NavLeftFunc() {
 
 export default function Nav() {
   return (
-    <div className="bg-white flex w-screen">
-      <div className="w-11/12 mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">
-        <div className="relative isolate overflow-hidden bg-gray-100 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
+    <div className="bg-white flex w-screen h-screen">
+      <div className="w-full h-full">
+        <div className="relative h-full isolate overflow-hidden bg-gray-100 sm:px-16 lg:flex lg:items-center lg:pt-0">
           <svg
             viewBox="0 0 1024 1024"
             className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 lg:translate-y-0"
@@ -66,9 +66,9 @@ export default function Nav() {
               </a>
             </div>
           </div>
-          <div className="relative mt-16 h-80 lg:mt-8">
+          <div className="relative p-5 h-2/3 mt-16">
             <img
-              className="absolute left-0 top-0 w-[57rem] max-w-none rounded-md bg-white/5 ring-1 ring-white/10"
+              className="absolute w-[57rem] max-w-none rounded-md bg-white/5 ring-1 ring-black/10"
               src="/images/demo.png"
               alt="App screenshot"
               width="1824"
