@@ -220,6 +220,9 @@ function Chat({
                         newHistory.length - 1
                       } refid=${number}></button>`;
                     });
+                    newHistory[newHistory.length - 1].content = newHistory[
+                        newHistory.length - 1
+                      ].content.replace("\n", "\n\n");
                     newHistory[newHistory.length - 1].content.replace("", "");
                     return { ...prevHistory, history: newHistory };
                   });
