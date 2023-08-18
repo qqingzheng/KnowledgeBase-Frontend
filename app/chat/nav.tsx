@@ -1,5 +1,5 @@
 import { LayoutSidebarInset } from "react-bootstrap-icons";
-import { title } from "./config";
+import { title } from "../config";
 
 function NavLeftFunc({ toggleSidebar }: { toggleSidebar: any }) {
   // siderbar打开的按钮

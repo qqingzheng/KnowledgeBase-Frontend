@@ -1,4 +1,4 @@
-import { backEndBase } from "./config";
+import { backEndBase } from "../config";
 
 async function logIn(){
     const response = await fetch(

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { defaultResponse, backEndBase } from "./config";
+import { defaultResponse, backEndBase } from "../config";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { XCircleFill, Send } from "react-bootstrap-icons";
