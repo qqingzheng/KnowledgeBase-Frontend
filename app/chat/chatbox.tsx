@@ -400,8 +400,8 @@ export default function Chat({
         StaticAddHistory(Type.IdentityType.ROBOT, defaultResponse);
     }
     return (
-        <div className="flex flex-col w-full min-w-screen max-w-screen min-h-screen max-h-screen">
-            <div className="h-[83%] mx-4">
+        <div className="flex flex-col w-full min-w-screen max-w-screen min-h-screen max-h-screen pb-8">
+            <div className="h-[88%] mx-4">
                 <div
                     className="flex flex-col p-4 rounded-t-2xl bg-gray-100 h-[85%] overflow-y-scroll"
                     ref={chatHistoryRef}
