@@ -106,7 +106,7 @@ function UserBox({
     return (
         <li
             key={index}
-            className="flex flex-col gap-y-1 p-2 origin-top animate-popOut"
+            className="flex flex-col gap-y-1 origin-top animate-popOut"
         >
             <div className="flex items-center gap-x-2">
                 <img
@@ -122,7 +122,7 @@ function UserBox({
             </div>
             <ReactMarkdown
                 rehypePlugins={[rehypeRaw]}
-                className="mx-8"
+                className="sm:mx-2 lg:mx-8"
                 children={content}
             />
         </li>
@@ -208,7 +208,7 @@ function RobotBox({
                 </div>
                 <ReactMarkdown
                     rehypePlugins={[rehypeRaw]}
-                    className="mx-8"
+                    className="sm:mx-2 lg:mx-8"
                     children={chatItem.content}
                     components={{
                         button: ({ node, ...props }) => (
@@ -401,7 +401,7 @@ export default function Chat({
     }
     return (
         <div className="flex flex-col w-full min-w-screen max-w-screen min-h-screen max-h-screen">
-            <div className="h-[85%] mx-6">
+            <div className="h-[80%] mx-4">
                 <div
                     className="flex flex-col p-4 rounded-t-2xl bg-gray-100 h-[85%] overflow-y-scroll"
                     ref={chatHistoryRef}
