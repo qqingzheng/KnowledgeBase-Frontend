@@ -122,7 +122,7 @@ function UserBox({
             </div>
             <ReactMarkdown
                 rehypePlugins={[rehypeRaw]}
-                className="sm:mx-2 lg:mx-8"
+                className="sm:mx-4 lg:mx-8"
                 children={content}
             />
         </li>
@@ -201,7 +201,7 @@ function RobotBox({
                     style={{
                         display: chatItem.isError ? "block" : "none"
                     }}
-                    className="p-4 mx-8 w-1/2 text-sm text-red-800 rounded-lg bg-red-50"
+                    className="p-4 mx-8 w-3/4 text-sm text-red-800 rounded-lg bg-red-50"
                     role="alert"
                 >
                     <span className="font-bold">错误:</span> {chatItem.isError}
@@ -231,7 +231,7 @@ function RobotBox({
                     if (key == "reference_urls" && value.length > 0) {
                         return (
                             <div className="m-3 border-t">
-                                <div className="mt-3 flex flex-wrap items-center mx-10 text-sm gap-x-2 gap-y-1 origin-left animate-popOut">
+                                <div className="mt-3 flex flex-wrap items-center mx-3 text-sm gap-x-2 gap-y-1 origin-left animate-popOut">
                                     参考网址：
                                     {value.map((refItem, refIndex) => {
                                         return (
@@ -401,12 +401,12 @@ export default function Chat({
     }
     return (
         <div className="flex flex-col w-full min-w-screen max-w-screen min-h-screen max-h-screen">
-            <div className="h-[80%] mx-4">
+            <div className="h-[83%] mx-4">
                 <div
                     className="flex flex-col p-4 rounded-t-2xl bg-gray-100 h-[85%] overflow-y-scroll"
                     ref={chatHistoryRef}
                 >
-                    <ul role="list" className="flex flex-col gap-y-3">
+                    <ul role="list" className="flex flex-col gap-y-4">
                         {chatHistory.history.map((chatitem, index) => {
                             if (chatitem.type == Type.IdentityType.USER) {
                                 return (
