@@ -400,8 +400,8 @@ export default function Chat({
         StaticAddHistory(Type.IdentityType.ROBOT, defaultResponse);
     }
     return (
-        <div className="flex flex-col w-full min-w-screen max-w-screen min-h-screen max-h-screen pb-8">
-            <div className="h-[88%] mx-4">
+        <div className="w-full min-w-screen screen pb-8">
+            <div className="flex flex-col h-[98%] mx-4">
                 <div
                     className="flex flex-col p-4 rounded-t-2xl bg-gray-100 h-[85%] overflow-y-scroll"
                     ref={chatHistoryRef}
@@ -435,7 +435,7 @@ export default function Chat({
                     </ul>
                 </div>
                 <form onSubmit={(e) => e.preventDefault()}>
-                    <div className="relative flex flex-row gap-x-5 p-5 items-center rounded-b-2xl bg-gray-100 h-[15%] w-full">
+                    <div className="relative flex flex-row gap-x-5 p-8 items-center rounded-b-2xl bg-gray-100 h-[15%] w-full">
                         <input
                             ref={inputRef}
                             className="rounded-full px-5 py-2 w-11/12"
