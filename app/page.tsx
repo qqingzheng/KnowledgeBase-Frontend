@@ -4,7 +4,7 @@ import { title, github, footer } from "./config";
 export default function index() {
   return (
     <div className="fixed items-center justify-center bg-white flex w-screen h-screen">
-      <div className="flex flex-row ring-1 ring-slate-200 shadow-xl rounded-xl w-[80%] md:w-[60%] h-[70%] overflow-hidden">
+      <div className="flex flex-row ring-1 ring-slate-200 md:shadow-xl rounded-xl w-[80%] md:w-[60%] h-[70%] overflow-hidden">
         <div className="flex flex-col items-center w-full md:w-1/2 h-full">
           <div className="mt-24">
             <span className="mt-24 font-sans text-slate-900 font-[500] text-3xl">{title}</span>
