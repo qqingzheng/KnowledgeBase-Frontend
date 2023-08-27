@@ -10,7 +10,6 @@ enum AlertType {
   DANGER
 }
 
-
 function Alert({ status, msg, alertType }: { status: boolean, msg: string, alertType: AlertType }) {
   let alertStyle = "";
   if (!status) {
@@ -68,7 +67,7 @@ export default function index() {
         } else {
           localStorage.setItem('access_token', data.access_token);
           alertInfo(AlertType.SUCCESS, data.msg);
-          window.location.href = '/chat';
+          window.location.href = '/hub';
         }
       } else {
         throw (null);

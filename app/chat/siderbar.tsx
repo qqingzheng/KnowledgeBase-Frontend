@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap-icons";
 import { footer, github } from "../config";
 import React, { useState, useEffect } from "react";
-import * as Type from "./types"
+import * as Type from "../types"
 
 export default function Siderbar({
     isOpen,

@@ -3,21 +3,23 @@ import { defaultResponse, backEndBase } from "../config";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { XCircleFill, Send } from "react-bootstrap-icons";
-import * as Type from "./types";
+import * as Type from "../types";
 
 async function ChatToDDGS(
     query: string,
+    app_id: string,
     setChatHistory: (value: React.SetStateAction<Type.ChatHistory>) => void
 ) {
     try {
         const response = await fetch(
-            backEndBase + "/chat/openai_ddgs",
+            backEndBase + "/chat/app_chat",
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization":  "Bearer " + localStorage.getItem('access_token'),
                 },
-                body: JSON.stringify({ prompt: query }),
+                body: JSON.stringify({ history: [], prompt: query, app_id: app_id }),
             }
         );
         if(response.status == 401){
@@ -96,11 +98,11 @@ async function ChatToDDGS(
 
 function UserBox({
     index,
-    userIdentity,
+    userInfo,
     content,
 }: {
     index: number;
-    userIdentity: Type.Identity;
+    userInfo: any;
     content: string;
 }) {
     return (
@@ -111,12 +113,12 @@ function UserBox({
             <div className="flex items-center gap-x-2">
                 <img
                     className="h-10 w-10 flex-none rounded-full bg-gray-50"
-                    src={userIdentity.avatarUrl}
+                    src={userInfo?.avatar_url}
                     alt=""
                 />
                 <div className="min-w-0 flex-auto">
                     <p className="text-normal font-semibold leading-6 text-gray-900">
-                        {userIdentity.nickName}
+                        {userInfo?.username}
                     </p>
                 </div>
             </div>
@@ -132,7 +134,7 @@ function UserBox({
 function RobotBox({
     isLoading,
     index,
-    robotIdentity,
+    appInfo,
     chatItem,
     chatHistory,
     handleRobotButtonClick,
@@ -142,7 +144,7 @@ function RobotBox({
 }: {
     isLoading: boolean;
     index: number;
-    robotIdentity: Type.Identity;
+    appInfo: any;
     chatItem: Type.ChatItem;
     chatHistory: Type.ChatHistory;
     handleRobotButtonClick: (
@@ -174,7 +176,7 @@ function RobotBox({
     return (
         <li
             key={index}
-            className="flex flex-col gap-y-1 bg-white rounded-lg origin-top animate-popOut"
+            className="flex flex-col gap-y-1 bg-white rounded-lg origin-top"
         >
             <div
                 style={{
@@ -189,12 +191,12 @@ function RobotBox({
                 <div className="flex items-center gap-x-2">
                     <img
                         className="h-10 w-10 flex-none rounded-full bg-gray-50"
-                        src={robotIdentity.avatarUrl}
+                        src={appInfo?.cover_img}
                         alt=""
                     />
                     <div className="min-w-0 flex-auto">
                         <p className="text-normal font-semibold leading-6 text-gray-900">
-                            {robotIdentity.nickName}
+                            ROBOT
                         </p>
                     </div>
                 </div>
@@ -298,13 +300,15 @@ function RefBox({
 }
 
 export default function Chat({
-    userIdentity,
-    robotIdentity,
+    userInfo,
+    appInfo,
     defaultChatHistory,
+    isAppInfoLoaded,
 }: {
-    userIdentity: Type.Identity;
-    robotIdentity: Type.Identity;
+    userInfo: any;
+    appInfo: any;
     defaultChatHistory: Type.ChatHistory;
+    isAppInfoLoaded: boolean;
 }) {
     // 输入框
     const [inputValue, setInputValue] = useState("");
@@ -319,6 +323,7 @@ export default function Chat({
     const buttonRef = useRef<HTMLButtonElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const chatHistoryRef = useRef<HTMLDivElement>(null);
+
 
     // 静态添加聊天历史（不会强制刷新页面）
     function StaticAddHistory(type: Type.IdentityType, content: string) {
@@ -391,14 +396,14 @@ export default function Chat({
         await executeAfterDelay();
 
         // 与接口通信，获取模型输出
-        await ChatToDDGS(query, setChatHistory);
+        await ChatToDDGS(query, appInfo?.app_id ,setChatHistory);
 
         setIsLoading(false);
         inputRef.current!.focus();
     }
 
-    if (chatHistoryCopy.history.length === 0) {
-        StaticAddHistory(Type.IdentityType.ROBOT, defaultResponse);
+    if (chatHistoryCopy.history.length === 0 && isAppInfoLoaded) {
+        StaticAddHistory(Type.IdentityType.ROBOT, appInfo?.welcome_msg);
     }
     return (
         <div className="w-full max-w-screen max-h-screen min-w-screen min-h-screen">
@@ -413,7 +418,7 @@ export default function Chat({
                                 return (
                                     <UserBox
                                         index={index}
-                                        userIdentity={userIdentity}
+                                        userInfo={userInfo}
                                         content={chatitem.content}
                                     ></UserBox>
                                 );
@@ -422,7 +427,7 @@ export default function Chat({
                                     <RobotBox
                                         isLoading={isLoading}
                                         index={index}
-                                        robotIdentity={robotIdentity}
+                                        appInfo={appInfo}
                                         chatItem={chatitem}
                                         chatHistory={chatHistory}
                                         handleRobotButtonClick={handleRobotButtonClick}
@@ -437,14 +442,17 @@ export default function Chat({
                 </div>
                 <form onSubmit={(e) => e.preventDefault()}>
                     <div className="relative flex flex-row gap-x-5 p-3 items-center rounded-b-2xl bg-gray-100 h-[15%] w-full">
-                        <input
-                            ref={inputRef}
-                            className="rounded-full px-5 py-2 w-11/12"
-                            placeholder="输入你的问题..."
-                            value={inputValue}
-                            disabled={isLoading}
-                            onChange={(e) => setInputValue(e.target.value)}
-                        />
+                        <div className="rounded-full ring-slate-400 ring-1 w-11/12">
+                            <input
+                                ref={inputRef}
+                                className="rounded-full px-5 py-2 w-full"
+                                placeholder="输入你的问题..."
+                                value={inputValue}
+                                disabled={isLoading || !isAppInfoLoaded}
+                                onChange={(e) => setInputValue(e.target.value)}
+                            />
+                        </div>
+                        
                         <button
                             type="submit"
                             disabled={isLoading}

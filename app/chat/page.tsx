@@ -1,31 +1,34 @@
 "use client";
 
-import { checkIfLogin } from "../security/auth";
+import { checkIfLogin, getAppInfo, getUserInfo } from "../security/auth";
 import React, { useState, useEffect, useRef } from "react";
-import Nav from "./nav";
+import Nav from "../nav";
 import Siderbar from "./siderbar";
 import ChatBox from "./chatbox";
-import * as Type from "./types";
+import * as Type from "../types";
 
 function Content({
   isOpen,
   conversations,
-  userIdentity,
-  robotIdentity,
+  userInfo,
+  appInfo,
   chatHistory,
+  isAppInfoLoaded,
 }: {
   isOpen: boolean;
   conversations: Array<Type.Conversation>;
-  userIdentity:Type.Identity;
-  robotIdentity:Type.Identity;
+  userInfo: any,
+  appInfo: any,
   chatHistory: Type.ChatHistory;
+  isAppInfoLoaded: boolean
 }) {
   return (
     <div className="flex flex-row">
       <Siderbar isOpen={isOpen} conversations={conversations} />
       <ChatBox
-        userIdentity={userIdentity}
-        robotIdentity={robotIdentity}
+        isAppInfoLoaded={isAppInfoLoaded}
+        userInfo={userInfo}
+        appInfo={appInfo}
         defaultChatHistory={chatHistory}
       />
     </div>
@@ -33,11 +36,35 @@ function Content({
 }
 
 export default function Main() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState({username: "", avatar_url: ""});
+  const [appInfo, setAppInfo] = useState({username: "", cover_img: ""});
+  const [isAppInfoLoaded, setIsAppInfoLoaded] = useState(false); 
+  async function getInfo(appId: string) {
+    let identity = await getUserInfo();
+    setUserInfo(identity.data);
+    let appInfo = await getAppInfo(appId);
+    if(appInfo == null){
+      window.location.href = "/hub";
+    }
+    appInfo.data['app_id'] = appId;
+    setAppInfo(appInfo.data);
+    setIsAppInfoLoaded(true);
+  }
   useEffect(() => {
-    checkIfLogin();
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const appId = urlParams.get('app');
+    if(appId == null){
+      window.location.href = "/hub";
+    }else{
+      checkIfLogin();
+      getInfo(appId);
+    }
+    
   }, []);
 
-  const [isOpen, setIsOpen] = useState(false);
+  
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
@@ -54,42 +81,18 @@ export default function Main() {
   };
   let conversations: Array<Type.Conversation>;
   conversations = new Array();
-  conversations.push({
-    id: 0,
-    displayName: "你好，请问什么是承租人优先权",
-    selected: true,
-    date: new Date(),
-  });
-  conversations.push({
-    id: 0,
-    displayName: "请问你叫什么名字",
-    selected: false,
-    date: new Date(),
-  });
-
-  let userIdentity:Type.Identity = {
-    identity: "chestnut",
-    nickName: "Chestnut",
-    avatarUrl: "https://avatars.githubusercontent.com/u/88202804?v=4",
-    type: Type.IdentityType.USER,
-  };
-  let robotIdentity:Type.Identity = {
-    identity: "robot",
-    nickName: "Robot",
-    avatarUrl: "https://avatars.githubusercontent.com/u/105474769?s=200&v=4",
-    type: Type.IdentityType.ROBOT,
-  };
   let chatHistory:Type.ChatHistory = {
     history: new Array(),
   };
   return (
     <main className="fixed flex flex-col bg-white min-w-full">
-      <Nav toggleSidebar={toggleSidebar} />
+      <Nav userInfo={userInfo} toggleSidebar={toggleSidebar} />
       <Content
+        isAppInfoLoaded={isAppInfoLoaded}
         isOpen={isOpen}
         conversations={conversations}
-        userIdentity={userIdentity}
-        robotIdentity={robotIdentity}
+        userInfo={userInfo}
+        appInfo={appInfo}
         chatHistory={chatHistory}
       />
     </main>

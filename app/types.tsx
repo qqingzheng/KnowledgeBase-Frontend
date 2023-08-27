@@ -1,3 +1,8 @@
+enum AlertType {
+  INFO,
+  SUCCESS,
+  DANGER
+}
 export enum IdentityType {
   USER,
   ROBOT,
