@@ -62,7 +62,7 @@ export default function Siderbar({
         <div className="min-h-screen">
             <div
                 className={`${sidebarStyle} ${hiddenStyle} transform top-0 left-0 whitespace-nowrap h-5/6`}
-                style={{ transition: "transform 0.3s, width 0.3s ease-in-out" }}
+                style={{ transition: "transform 0.1s, width 0.1s ease-in-out" }}
             >
                 <div className="flex flex-col px-8 h-full">
                     { newConvComponents }

@@ -1,5 +1,6 @@
 "use client";
 
+import { checkIfLogin } from "../security/auth";
 import React, { useState, useEffect, useRef } from "react";
 import Nav from "./nav";
 import Siderbar from "./siderbar";
@@ -32,13 +33,15 @@ function Content({
 }
 
 export default function Main() {
+  useEffect(() => {
+    checkIfLogin();
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
         setIsOpen(false);
-      } else {
-        setIsOpen(true);
       }
     };
     window.addEventListener("resize", handleResize);
