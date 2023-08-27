@@ -40,7 +40,7 @@ export function Content() {
                                         ))}
                                     </div>
                                     <div className="flex items-center justify-end gap-x-2">
-                                        <a href="/chat" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">打开</a>
+                                        <a href={`/chat?app=${app?.app_id}`} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">打开</a>
                                     </div>
                                 </div>
                             </li>
