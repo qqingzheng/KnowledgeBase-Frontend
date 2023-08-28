@@ -409,7 +409,7 @@ export default function Chat({
         <div className="w-full max-w-screen max-h-screen min-w-screen min-h-screen">
             <div className="h-[85%] md:h-[90%] mx-6">
                 <div
-                    className="flex flex-col flex-shrink p-4 rounded-t-2xl bg-gray-100 h-[85%] overflow-y-auto"
+                    className="flex flex-col flex-shrink p-4 rounded-t-2xl bg-[#f3f6fc] h-[85%] overflow-y-auto"
                     ref={chatHistoryRef}
                 >
                     <ul role="list" className="flex flex-col gap-y-4">
@@ -441,11 +441,11 @@ export default function Chat({
                     </ul>
                 </div>
                 <form onSubmit={(e) => e.preventDefault()}>
-                    <div className="relative flex flex-row gap-x-5 p-3 items-center rounded-b-2xl bg-gray-100 h-[15%] w-full">
+                    <div className="relative flex flex-row gap-x-5 p-3 items-center rounded-b-2xl bg-[#f3f6fc] h-[15%] w-full">
                         <div className="rounded-full ring-slate-400 ring-1 w-11/12">
                             <input
                                 ref={inputRef}
-                                className="rounded-full px-5 py-2 w-full"
+                                className="rounded-full px-5 py-4 w-full"
                                 placeholder="输入你的问题..."
                                 value={inputValue}
                                 disabled={isLoading || !isAppInfoLoaded}
