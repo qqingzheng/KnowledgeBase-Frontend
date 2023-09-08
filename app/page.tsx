@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Github, InfoCircleFill } from "react-bootstrap-icons";
 import { title, github, footer, backEndBase } from "./config";
 
